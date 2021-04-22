@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <header>
@@ -15,7 +14,9 @@
           <TodoListItem
             v-for="(todoItem, index) in todoItems"
             :key="index"
+            :index="index"
             :todoItem="todoItem"
+            @remove="remoteTodoItem"
           ></TodoListItem>
         </ul>
       </div>
@@ -67,6 +68,11 @@ export default Vue.extend({
     fetchTodoItems() {
       this.todoItems = storage.fetch();
     },
+    remoteTodoItem(index: number) {
+      console.log("remove", index);
+      this.todoItems.splice(index, 1);
+      storage.save(this.todoItems);
+    },
   },
   created() {
     this.fetchTodoItems();
@@ -74,7 +80,4 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-</style>
-
-
+<style scoped></style>
