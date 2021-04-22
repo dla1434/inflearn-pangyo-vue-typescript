@@ -1,6 +1,8 @@
 <template>
   <div>
-    <span>{{ todoItem }}</span>
+    <span class="item" :class="todoItemClass" @click="toggleItem">
+      {{ todoItem.title }}
+    </span>
     <button @click="remoteTodo">삭제</button>
     <!-- 
     위의 코드는 메소드 없이 바로 emit을 호출도 가능하지만...
@@ -11,14 +13,27 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Todo } from "@/App.vue";
+import Vue, { PropType } from "vue";
 
 export default Vue.extend({
   props: {
-    todoItem: String,
+    todoItem: Object as PropType<Todo>,
     index: Number,
   },
+
+  computed: {
+    //:class="todoItem.done ? 'complete' : null"
+    //span 태그에 조건보다는 computed로 관리하는데 추후 복잡해지는 경우 관리가 수월해진다.
+    todoItemClass(): string | null {
+      return this.todoItem.done ? "complete" : null;
+    },
+  },
+
   methods: {
+    toggleItem() {
+      this.$emit("toggle", this.todoItem, this.index);
+    },
     remoteTodo() {
       this.$emit("remove", this.index);
     },
@@ -26,4 +41,11 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.item {
+  cursor: pointer;
+}
+.complete {
+  text-decoration: line-through;
+}
+</style>
