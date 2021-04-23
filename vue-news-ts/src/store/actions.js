@@ -1,52 +1,30 @@
 import {
-  fetchAskList,
-  fetchItemInfo,
-  fetchJobsList,
+  fetchNews,
+  fetchAsk,
+  fetchJobs,
+  fetchUser,
+  fetchItem,
   fetchList,
-  fetchNewsList,
-  fetchUserInfo,
-} from "../api";
+} from "../api/index.js";
 
 export default {
   FETCH_NEWS({ commit }) {
-    return fetchNewsList()
-      .then((response) => {
-        commit("SET_NEWS", response.data);
-        return response;
-      })
-      .catch((error) => console.log(error));
-  },
-  FETCH_JOBS({ commit }) {
-    return fetchJobsList()
-      .then(({ data }) => {
-        commit("SET_JOBS", data);
-      })
-      .catch((error) => console.log(error));
+    return fetchNews().then((response) => commit("SET_NEWS", response.data));
   },
   FETCH_ASK({ commit }) {
-    return fetchAskList()
-      .then(({ data }) => {
-        commit("SET_ASK", data);
-      })
-      .catch((error) => console.log(error));
+    return fetchAsk().then((response) => commit("SET_ASK", response.data));
   },
-  FETCH_USER({ commit }, name) {
-    return fetchUserInfo(name)
-      .then(({ data }) => {
-        commit("SET_USER", data);
-      })
-      .catch((error) => console.log(error));
+  FETCH_JOBS({ commit }) {
+    return fetchJobs().then((response) => commit("SET_JOBS", response.data));
+  },
+  FETCH_USER({ commit }, userId) {
+    return fetchUser(userId).then((res) => commit("SET_USER", res.data));
   },
   FETCH_ITEM({ commit }, itemId) {
-    return fetchItemInfo(itemId)
-      .then(({ data }) => {
-        commit("SET_ITEM", data);
-      })
-      .catch((error) => console.log(error));
+    return fetchItem(itemId).then((res) => commit("SET_ITEM", res.data));
   },
-  FETCH_LIST({ commit }, pageName) {
-    return fetchList(pageName)
-      .then(({ data }) => commit("SET_LIST", data))
-      .catch((error) => console.log(error));
+  // hoc
+  FETCH_LIST({ commit }, listType) {
+    return fetchList(listType).then((res) => commit("SET_LIST", res.data));
   },
 };

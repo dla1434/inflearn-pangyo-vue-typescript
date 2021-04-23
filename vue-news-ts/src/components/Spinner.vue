@@ -17,7 +17,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .lds-facebook {
   display: inline-block;
   position: absolute;

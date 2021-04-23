@@ -1,68 +1,67 @@
 <template>
   <div id="app">
-    <ToolBar></ToolBar>
-    <transition name="page">
-    <router-view></router-view>
+    <spinner :loading="loading"></spinner>
+    <tool-bar></tool-bar>
+    <transition name="routing-fade" mode="out-in">
+      <router-view></router-view>
     </transition>
-    <Spinner :loading="loadingStatus"></Spinner>
   </div>
 </template>
 
 <script>
-  import ToolBar from './components/ToolBar';
-  import Spinner from "./components/Spinner";
-  import bus from "./utils/bus";
+import ToolBar from './components/ToolBar.vue';
+import ProgressBar from './components/ProgressBar.vue';
+import Spinner from './components/Spinner.vue';
+import bus from './utils/bus.js';
 
-  export default {
-    components: {
-      ToolBar,
-      Spinner,
-    },
-    data() {
-      return {
-        loadingStatus: false,
-      };
-    },
-    methods: {
-      startSpinner() {
-        this.loadingStatus = true;
-      },
-      endSpinner() {
-        this.loadingStatus = false;
-      }
-    },
-    created() {
-      bus.$on('start:spinner', () => this.startSpinner);
-      bus.$on('end:spinner', () => this.endSpinner);
-    },
-    beforeDestroy() {
-      bus.$off('start:spinner', this.startSpinner);
-      bus.$off('end:spinner', this.endSpinner);
+export default {
+  components: {
+    ToolBar,
+    Spinner,
+  },
+  data() {
+    return {
+      loading: false,
     }
+  },
+  methods: {
+    onProgress() {
+      this.loading = true;
+    },
+    offProgress() {
+      this.loading = false;
+    }
+  },
+  created() {
+    bus.$on('on:progress', this.onProgress);
+    bus.$on('off:progress', this.offProgress);
   }
+}
 </script>
 
 <style>
-  body {
-    padding: 0;
-    margin: 0;
-  }
-  a {
-    color: #34495e;
-    text-decoration: none;
-  }
-  a:hover{
-    color: #42b883;
-    text-decoration: underline;
-  }
-  a.router-link-exact-active {
-    text-decoration: underline;
-  }
-  /* Router - Transition */
-  .page-enter-active, .page-leave-active {
-    transition: opacity .5s;
-  }
-  .page-enter, .page-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-  }
+body {
+  margin: 0;
+}
+
+a {
+  color: #34495e;
+  text-decoration: none;
+}
+a:hover {
+  color: #42b883;
+  text-decoration: underline;
+}
+a.router-link-active {
+  text-decoration: underline;
+}
+
+/* Router Transition */
+.routing-fade-enter-active, .routing-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.routing-fade-enter, .routing-fade-leave-to
+/* .routing-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

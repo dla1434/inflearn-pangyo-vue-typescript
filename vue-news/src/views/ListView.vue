@@ -1,20 +1,20 @@
 <template>
-    <div>
-        <ListItem></ListItem>
-    </div>
+  <div>
+    <list-item></list-item>
+  </div>
 </template>
 
 <script>
-    import ListItem from "../components/ListItem";
+import ListItem from '../components/ListItem.vue';
+import bus from '../utils/bus.js';
 
-
-    export default {
-        components: {
-            ListItem
-        }
-    }
+export default {
+  components: {
+    ListItem
+  },
+}
 </script>
 
-<style scoped>
+<style>
 
 </style>

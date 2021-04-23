@@ -1,11 +1,12 @@
 <template>
   <div>
-    <ListItem></ListItem>
+    <list-item></list-item>
   </div>
 </template>
 
 <script>
-import ListItem from "../components/ListItem";
+import ListItem from "../components/ListItem.vue";
+import bus from "../utils/bus.js";
 
 export default {
   components: {
@@ -14,4 +15,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>
