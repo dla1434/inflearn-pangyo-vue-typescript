@@ -1,4 +1,5 @@
 export default {
+  //대문자로 작성하는게 규칙
   SET_NEWS(state, news) {
     state.news = news;
   },

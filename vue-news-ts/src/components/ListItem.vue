@@ -1,6 +1,11 @@
 <template>
   <ul class="news-list">
+    <!-- 
+    listItems는 기존 store 저장값을 가지고 온다. 
     <li v-for="news in listItems" :key="news.id" class="post">
+    -->
+    <!-- 이제 item props를 사용하므로 items으로 변경 -->
+    <li v-for="news in items" :key="news.id" class="post">
       <div class="points">
         {{ news.points || 0 }}
       </div>
@@ -37,6 +42,13 @@
 
 <script>
 export default {
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+  },
+
   computed: {
     listItems() {
       return this.$store.getters.fetchedList;
