@@ -19,19 +19,22 @@ export default new VueRouter({
       name: "news",
       component: createListView("NewsView"),
       async beforeEnter(
-        routeTo: Route,
+        routeTo,
         routeFrom: Route,
         next: NavigationGuardNext<Vue>
       ) {
         bus.$emit("on:progress");
+        next();
+
+        //ListView.vue에서 호출하는 처리와 헤깔릴 수 있으므로 잠시 주석
         // try {
         //   await store.dispatch("FETCH_LIST", routeTo.name);
         //   next();
         // } catch (error) {
         //   new Error("failed to fetch news items");
-        //   next("/error");
+        //   // next("/error");
         // }
-        next();
+
         // store
         //   .dispatch("FETCH_LIST", routeTo.name)
         //   .then(() => next())
